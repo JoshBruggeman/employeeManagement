@@ -75,8 +75,14 @@ $(document).on('click', '.button-test', test);
 
 function test() {
 
-    writeNewEmpl('jim', 'old man', '20161112', 100, 1, 100);
-    writeNewEmpl('chuck', 'young man', '20161110', 150, 2, 300);
+    var tbill = parseInt($('#monthlyRate').val()) * parseInt($('#monthsWorked').val());
+
+    writeNewEmpl( $('#name').val(),
+                  $('#role').val(), 
+                  $('#startDate').val(),
+                  $('#monthlyRate').val(),
+                  $('#monthsWorked').val(),
+                  tbill);
 
 }
 
