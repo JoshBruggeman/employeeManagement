@@ -20,22 +20,22 @@ var database = firebase.database();
 */
 database.ref().on("value", function(snapshot) {
     if(snapshot.child("emp-db-inclass").exists()) {
-        console.log('database.ref() update');
+        console.log('database.ref() update value');
         emplData = snapshot.val();
         showEmplData();
     }
 }, function(errorObject) {
-
+    console.log('ERROR - on value');
 });
 
 database.ref().on("child_added", function(childSnapshot) {
     if(childSnapshot.child("emp-db-inclass").exists()) {
-        console.log('database.ref() update');
+        console.log('database.ref() update child_added');
         emplDataSnap = childSnapshot.val();
         appendEmplData();
     }
 }, function(errorObject) {
-
+    console.log('ERROR - on child_added');
 });
 
 function writeNewEmpl(empname, role, sdate, mwork, mrate, tbill) {
@@ -61,6 +61,18 @@ function writeNewEmpl(empname, role, sdate, mwork, mrate, tbill) {
   return firebase.database().ref().update(updates);
 }
 
+function showEmplData() {
+
+    console.log('showEmplData() - emplData.length = '+emplData.length);
+
+    $('#employeeName').val(emplData[0].empname);
+    $('#role').val(emplData[0].role);
+    $('#startDate').val(emplData[0].sdate);
+    $('#monthlyRate').val(emplData[0].mrate);
+    $('#monthsWorked').val(emplData[0].mwork);
+
+}
+
 /*
 */
 database.ref().orderByChild("dateAdded").limitToLast(1).on("child_added", 
@@ -77,7 +89,7 @@ function test() {
 
     var tbill = parseInt($('#monthlyRate').val()) * parseInt($('#monthsWorked').val());
 
-    writeNewEmpl( $('#name').val(),
+    writeNewEmpl( $('#employeeName').val(),
                   $('#role').val(), 
                   $('#startDate').val(),
                   $('#monthlyRate').val(),
